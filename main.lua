@@ -37,13 +37,18 @@ function love.draw()
     love.graphics.draw(sprites.player, player.x, player.y, playerMouseAngle(), nil, nil, sprites.player:getWidth() / 2, sprites.player:getHeight() / 2)
 
     for i,z in ipairs(zombies) do 
-        love.graphics.draw(sprites.zombie, z.x, z.y)
+        love.graphics.draw(sprites.zombie, z.x, z.y, playerZombieAngle(z), nil, nil, sprites.zombie:getWidth()/2, sprites.zombie:getHeight()/2 )
     end
 end
 
 -- Calculate the angle between the line formed from the mouse to the sprite and the positive X axis.  This is then applied to the sprite to make it always face the mouse.
 function playerMouseAngle()
     return math.atan2( love.mouse.getY() - player.y, love.mouse.getX() - player.x )
+end
+
+-- Calculate the angle between the line formed from the player to the zombie and the positive X axis.  This is then applied to the zombie to make it always face the player.
+function playerZombieAngle(enemy)
+    return math.atan2( player.y - enemy.y, player.x - enemy.x )
 end
 
 function spawnZombie() 
