@@ -11,6 +11,9 @@ function love.load()
     player.x = love.graphics.getWidth() / 2
     player.y = love.graphics.getHeight() / 2
     player.speed = 180
+
+    -- Zombie Values
+    zombies = {}
 end
 
 function love.update(dt)
@@ -32,8 +35,27 @@ end
 function love.draw()
     love.graphics.draw(sprites.background, 0, 0)
     love.graphics.draw(sprites.player, player.x, player.y, playerMouseAngle(), nil, nil, sprites.player:getWidth() / 2, sprites.player:getHeight() / 2)
+
+    for i,z in ipairs(zombies) do 
+        love.graphics.draw(sprites.zombie, z.x, z.y)
+    end
 end
 
+-- Calculate the angle between the line formed from the mouse to the sprite and the positive X axis.  This is then applied to the sprite to make it always face the mouse.
 function playerMouseAngle()
     return math.atan2( love.mouse.getY() - player.y, love.mouse.getX() - player.x )
+end
+
+function spawnZombie() 
+    zombie = {}
+    zombie.x = math.random(0, love.graphics.getWidth())
+    zombie.y = math.random(0, love.graphics.getHeight())
+    zombie.speed = 100
+    table.insert(zombies, zombie)
+end
+
+function love.keypressed(key)
+    if key == "space" then
+        spawnZombie()
+    end
 end
