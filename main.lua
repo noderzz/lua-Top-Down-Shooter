@@ -30,6 +30,11 @@ function love.update(dt)
     if love.keyboard.isDown("s") then
         player.y = player.y + (player.speed * dt)
     end
+
+    for i,z in ipairs(zombies) do
+        z.x = z.x + math.cos(playerZombieAngle(z)) * z.speed * dt
+        z.y = z.y + math.sin(playerZombieAngle(z)) * z.speed * dt
+    end
 end
 
 function love.draw()
